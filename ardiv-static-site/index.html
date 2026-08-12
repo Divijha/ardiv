@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ardiv — Chennai's Honest Web Studio</title>
+    <meta name="description" content="We build fast, secure websites and web applications for growing businesses. React, Next.js, Node.js, and e-commerce specialists based in Chennai.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ardiv: {
+                            navy: '#0a0a1a',
+                            surface: '#1a1a2e',
+                            blue: '#3b82f6',
+                            coral: '#f97316',
+                            white: '#ffffff',
+                            slate: '#94a3b8',
+                            muted: '#64748b',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: #0a0a1a; color: #fff; overflow-x: hidden; }
+        ::selection { background: rgba(59,130,246,0.3); color: #fff; }
+        .gradient-text { background: linear-gradient(135deg, #3b82f6, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { border-color: rgba(59,130,246,0.3); background: rgba(26,26,46,0.8); transform: translateY(-2px); }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; opacity: 0; }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .scroll-indicator { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); width: 24px; height: 40px; border: 2px solid rgba(148,163,184,0.3); border-radius: 12px; display: flex; justify-content: center; padding-top: 8px; }
+        .scroll-indicator::after { content: ''; width: 4px; height: 8px; background: #3b82f6; border-radius: 2px; animation: scrollDown 1.5s ease-in-out infinite; }
+        @keyframes scrollDown { 0%, 100% { transform: translateY(0); opacity: 1; } 50% { transform: translateY(8px); opacity: 0.3; } }
+        .mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+        .mobile-menu.open { max-height: 400px; }
+        .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+        .faq-content.open { max-height: 300px; }
+        .faq-icon { transition: transform 0.3s ease; }
+        .faq-icon.open { transform: rotate(180deg); }
+        .intersection-observe { opacity: 0; transform: translateY(30px); transition: all 0.6s ease-out; }
+        .intersection-observe.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-12 flex items-center justify-between h-16 sm:h-20">
+            <a href="#" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
+                    <polygon points="50,10 10,85 90,85" fill="#3b82f6"/>
+                    <polygon points="50,10 35,40 65,40" fill="#0a0a1a"/>
+                    <rect x="30" y="55" width="40" height="8" fill="#0a0a1a" rx="1"/>
+                    <circle cx="85" cy="20" r="6" fill="#f97316"/>
+                </svg>
+                <div class="flex flex-col">
+                    <span class="text-lg font-bold tracking-tight">ARDIV</span>
+                    <span class="text-[10px] text-ardiv-slate tracking-wider">WEB STUDIO</span>
+                </div>
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#services" class="text-sm font-medium text-ardiv-slate hover:text-white transition-colors">Services</a>
+                <a href="#work" class="text-sm font-medium text-ardiv-slate hover:text-white transition-colors">Work</a>
+                <a href="#process" class="text-sm font-medium text-ardiv-slate hover:text-white transition-colors">Process</a>
+                <a href="#about" class="text-sm font-medium text-ardiv-slate hover:text-white transition-colors">About</a>
+                <a href="#contact" class="inline-flex items-center justify-center rounded-lg bg-ardiv-blue px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-600 transition-colors">Start a Project</a>
+            </div>
+            <button id="menuBtn" class="md:hidden p-2 text-white" onclick="toggleMenu()">
+                <svg id="menuIcon" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            </button>
+        </nav>
+        <div id="mobileMenu" class="mobile-menu md:hidden bg-ardiv-navy/95 backdrop-blur-lg border-b border-white/5">
+            <div class="mx-auto max-w-7xl px-4 py-4 flex flex-col gap-4">
+                <a href="#services" class="text-base font-medium text-ardiv-slate hover:text-white py-2" onclick="toggleMenu()">Services</a>
+                <a href="#work" class="text-base font-medium text-ardiv-slate hover:text-white py-2" onclick="toggleMenu()">Work</a>
+                <a href="#process" class="text-base font-medium text-ardiv-slate hover:text-white py-2" onclick="toggleMenu()">Process</a>
+                <a href="#about" class="text-base font-medium text-ardiv-slate hover:text-white py-2" onclick="toggleMenu()">About</a>
+                <a href="#contact" class="inline-flex items-center justify-center rounded-lg bg-ardiv-blue px-5 py-2.5 text-sm font-semibold text-white" onclick="toggleMenu()">Start a Project</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+        <div class="absolute inset-0 bg-gradient-to-b from-ardiv-blue/5 via-transparent to-transparent"></div>
+        <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-ardiv-blue/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-ardiv-coral/5 rounded-full blur-3xl"></div>
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-12 relative z-10">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="animate-fade-in-up inline-flex items-center gap-2 rounded-full border border-ardiv-blue/20 bg-ardiv-blue/10 px-4 py-1.5 mb-8">
+                    <svg width="14" height="14" fill="none" stroke="#f97316" stroke-width="2"><path d="M13 2L3 14h9l1-12z"/></svg>
+                    <span class="text-sm font-medium text-ardiv-blue">Now accepting projects</span>
+                </div>
+                <h1 class="animate-fade-in-up delay-1 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight">
+                    We Build What We Know.<br>
+                    <span class="gradient-text">We Learn What We Don't.</span>
+                </h1>
+                <p class="animate-fade-in-up delay-2 mt-6 text-lg sm:text-xl text-ardiv-slate max-w-2xl mx-auto leading-relaxed">
+                    Chennai's honest web studio. React, Next.js, Node.js, and e-commerce specialists. No false promises. No fake expertise. Just clean code that works.
+                </p>
+                <div class="animate-fade-in-up delay-3 mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="#contact" class="inline-flex items-center justify-center rounded-lg bg-ardiv-blue px-6 py-3 text-sm font-semibold text-white hover:bg-blue-600 transition-all hover:shadow-lg hover:shadow-blue-500/25">
+                        Start a Project
+                        <svg class="ml-2" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                    <a href="#work" class="inline-flex items-center justify-center rounded-lg border border-ardiv-slate/30 px-6 py-3 text-sm font-semibold text-white hover:border-ardiv-blue hover:text-ardiv-blue transition-all">
+                        See Our Work
+                    </a>
+                </div>
+                <div class="animate-fade-in-up delay-4 mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl mx-auto">
+                    <div class="flex items-center justify-center gap-2 text-ardiv-slate">
+                        <svg width="18" height="18" fill="none" stroke="#3b82f6" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        <span class="text-sm">Enterprise Security</span>
+                    </div>
+                    <div class="flex items-center justify-center gap-2 text-ardiv-slate">
+                        <svg width="18" height="18" fill="none" stroke="#3b82f6" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        <span class="text-sm">On-Time Delivery</span>
+                    </div>
+                    <div class="flex items-center justify-center gap-2 text-ardiv-slate">
+                        <svg width="18" height="18" fill="none" stroke="#3b82f6" stroke-width="2"><path d="M13 2L3 14h9l1-12z"/></svg>
+                        <span class="text-sm">Clean Code Always</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="py-24 sm:py-32">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-12">
+            <div class="text-center mb-12 intersection-observe">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">What We Build</h2>
+                <p class="mt-4 text-lg text-ardiv-slate max-w-2xl mx-auto">Three core services. Deep expertise. No fluff.</p>
+                <div class="mt-4 h-1 w-20 bg-ardiv-coral rounded-full mx-auto"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mt-16">
+                <div class="intersection-observe card-hover rounded-xl border border-white/5 bg-ardiv-surface/50 p-6 backdrop-blur-sm">
+                    <div class="w-12 h-12 rounded-lg bg-ardiv-blue/10 flex items-center justify-center mb-6">
+                        <svg width="24" height="24" fill="none" stroke="#3b82f6" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Web Development</h3>
+                    <p class="text-ardiv-slate text-sm leading-relaxed mb-6">Fast, modern websites built with React, Next.js, and Node.js.</p>
+                    <ul class="space-y-2.5">
+                        <li class="flex items-start gap-2 text-sm text-ardiv-slate"><svg width="14" height="14" fill="none" stroke="#f97316" stroke-width="2" class="mt-0.5 shrink-0"><path d="M5 12h14M12 5l7 7-7 7"/></svg>React & Next.js Applications</li>
+                        <li class="flex items-start gap-2 text-sm text-ardiv-slate"><svg width="14" height="14" fill="none" stroke="#f97316" stroke-width="2" class="mt-0.5 shrink-0"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Node.js Backend APIs</li>
+                        <li class="flex items-start gap-2 text-sm text-ardiv-slate"><svg width="14" height="14" fill="none" stroke="#f97316" stroke-width="2" class="mt-0.5 shrink-0"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Admin Dashboards</li>
+                        <li class="flex items-start gap-2 text-sm text-ardiv-slate"><svg width="14" height="14" fill="none" stroke="#f97316" stroke-width="2" class="mt-0.5 shrink-0"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Payment Integration</li>
+                        <li class="flex items-start gap-2 text-sm text-ardiv-slate"><svg width="14" height="14" fill="none" stroke="#f97316" stroke-width="2" class="mt-0.5 shrink-0"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Performance Optimization</li>
+                    </ul>
+                    <div class="mt-6 pt-6 border-t border-white/5">
+                        <a href="#contact" class="inline-flex items-center gap-1 text-sm font-medium text-ardiv-blue hover:text-blue-400 transition-colors">Discuss this<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    </div>
+                </div>
+                <div class="intersection-observe card-hover rounded-xl border border-white/5 bg-ardiv-surface/50 p-6 backdrop-blur-sm">
+                    <div class="w-12 h-12 rounded-lg bg-ardiv-blue/10 flex items-center justify-center mb-6">
+                        <svg width="24" height="24" fill="none" stroke="#3b82f6" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">E-Commerce</h3>
+                    <p class="text-ardiv-slate text-sm leading-relaxed mb-6">Online stores that convert visitors into customers.</p>
+                    <ul class="space-y-2.5">
+                        <li class="flex items-start gap-2 text-sm text-ardiv-slate"><svg width="14" height="14" fill="none" stroke="#f97316" stroke-width="2" class="mt-0.5 shrink-0"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Shopify Setup & Customization</li>
+                        <li class="flex items-start gap-2 text-sm text-ardiv-slate"><svg width="14" height="14" fill="none" stroke="#f97316" stroke-width="2" class="mt-0.5 shrink-0"><path d="M5 12h14M12 5l7 7-7 7"/></svg>WooCommerce Development</li>
+                        <li class="flex items-start gap-2 text-sm text-ardiv-slate"><svg width="14" height="14" fill="none" stroke="#f97316" stroke-width="2" class="mt-0.5 shrink-0"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Custom E-Commerce</li>
+                        <li class="flex items-start gap-2 text-sm text-ardiv-slate"><svg width="14" height="14" fill="none" stroke="#f97316" stroke-width="2" class="mt-0.5 shrink-0"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Payment Gateway Integration</li>
+                        <li class="flex items-start gap-2 text-sm text-ardiv-slate"><svg width="14" height="14" fill="none" stroke="#f97316" stroke-width="2" class="mt-0.5 shrink-0"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Inventory Management</li>
+                    </ul>
+                    <div class="mt-6 pt-6 border-t border-white/5">
+                        <a href="#contact" class="inline-flex items-center gap-1 text-sm font-medium text-ardiv-blue hover:text-blue-400 transition-colors">Discuss this<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    </div>
+                </div>
+                <div class="intersection-observe card-hover rounded-xl border border-white/5 bg-ardiv-surface/50 p-6 backdrop-blur-sm">
+                    <div class="w-12 h-12 rounded-lg bg-ardiv-blue/10 flex items-center justify-center mb-6">
+                        <svg width="24" height="24" fill="none" stroke="#3b82f6" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Static Sites & SEO</h3>
+                    <p class="text-ardiv-slate text-sm leading-relaxed mb-6">Lightning-fast sites that rank on Google.</p>
+                    <ul class="space-y-2.5">
+                        <li class="flex items-start gap-2 text-sm text-ardiv-slate"><svg width="14" height="14" fill="none" stroke="#f97316" stroke-width="2" class="mt-0.5 shrink-0"><path d="M5 12h14M12 5l7 7-7 7"/></svg>WordPress Development</li>
+                        <li class="flex items-start gap-2 text-sm text-ardiv-slate"><svg width="14" height="14" fill="none" stroke="#f97316" stroke-width="2" class="mt-0.5 shrink-0"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Landing Pages</li>
+                        <li class="flex items-start gap-2 text-sm text-ardiv-slate"><svg width="14" height="14" fill="none" stroke="#f97316" stroke-width="2" class="mt-0.5 shrink-0"><path d="M5 12h14M12 5l7 7-7 7"/></svg>SEO Optimization</li>
+                        <li class="flex items-start gap-2 text-sm text-ardiv-slate"><svg width="14" height="14" fill="none" stroke="#f97316" stroke-width="2" class="mt-0.5 shrink-0"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Speed Optimization</li>
+                        <li class="flex items-start gap-2 text-sm text-ardiv-slate"><svg width="14" height="14" fill="none" stroke="#f97316" stroke-width="2" class="mt-0.5 shrink-0"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Content Strategy</li>
+                    </ul>
+                    <div class="mt-6 pt-6 border-t border-white/5">
+                        <a href="#contact" class="inline-flex items-center gap-1 text-sm font-medium text-ardiv-blue hover:text-blue-400 transition-colors">Discuss this<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work -->
+    <section id="work" class="py-24 sm:py-32 bg-ardiv-surface/30">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-12">
+            <div class="text-center mb-12 intersection-observe">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">Our Work</h2>
+                <p class="mt-4 text-lg text-ardiv-slate max-w-2xl mx-auto">Real projects. Real results. No fake portfolios.</p>
+                <div class="mt-4 h-1 w-20 bg-ardiv-coral rounded-full mx-auto"></div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mt-16">
+                <div class="intersection-observe card-hover rounded-xl border border-white/5 bg-ardiv-surface/50 p-6 backdrop-blur-sm">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-medium bg-ardiv-blue/10 text-ardiv-blue mb-2">Healthcare</span>
+                            <h3 class="text-xl font-bold text-white">Healthcare Claims Portal</h3>
+                        </div>
+                    </div>
+                    <div class="space-y-3 mb-6">
+                        <div><span class="text-xs font-semibold text-ardiv-coral uppercase tracking-wider">Problem</span><p class="text-sm text-ardiv-slate mt-1">Manual claims processing took 14 days with a 12% error rate.</p></div>
+                        <div><span class="text-xs font-semibold text-ardiv-blue uppercase tracking-wider">Solution</span><p class="text-sm text-ardiv-slate mt-1">Built an automated workflow engine with role-based access control.</p></div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-white/5 text-ardiv-slate border border-white/5">React</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-white/5 text-ardiv-slate border border-white/5">Node.js</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-white/5 text-ardiv-slate border border-white/5">PostgreSQL</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-white/5 text-ardiv-slate border border-white/5">Redis</span>
+                    </div>
+                    <div class="p-4 rounded-lg bg-white/5 border border-white/5">
+                        <div class="flex items-center gap-2 mb-2"><svg width="16" height="16" fill="none" stroke="#4ade80" stroke-width="2"><path d="M23 6l-9 12-5-5"/></svg><span class="text-sm font-semibold text-green-400">Result</span></div>
+                        <p class="text-sm text-white">Reduced processing to 2 days with less than 1% errors.</p>
+                        <div class="mt-3 flex items-center gap-4 text-xs">
+                            <span class="text-ardiv-slate">Before: <span class="text-ardiv-coral">14 days</span></span>
+                            <svg width="12" height="12" fill="none" stroke="#94a3b8" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            <span class="text-ardiv-slate">After: <span class="text-green-400">2 days</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="intersection-observe card-hover rounded-xl border border-white/5 bg-ardiv-surface/50 p-6 backdrop-blur-sm">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-medium bg-ardiv-blue/10 text-ardiv-blue mb-2">Fintech</span>
+                            <h3 class="text-xl font-bold text-white">Payment Integration System</h3>
+                        </div>
+                    </div>
+                    <div class="space-y-3 mb-6">
+                        <div><span class="text-xs font-semibold text-ardiv-coral uppercase tracking-wider">Problem</span><p class="text-sm text-ardiv-slate mt-1">Multiple payment methods caused reconciliation chaos.</p></div>
+                        <div><span class="text-xs font-semibold text-ardiv-blue uppercase tracking-wider">Solution</span><p class="text-sm text-ardiv-slate mt-1">Unified API handling Razorpay, Stripe, and UPI with webhook management.</p></div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-white/5 text-ardiv-slate border border-white/5">Node.js</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-white/5 text-ardiv-slate border border-white/5">Razorpay</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-white/5 text-ardiv-slate border border-white/5">Stripe</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-white/5 text-ardiv-slate border border-white/5">Webhooks</span>
+                    </div>
+                    <div class="p-4 rounded-lg bg-white/5 border border-white/5">
+                        <div class="flex items-center gap-2 mb-2"><svg width="16" height="16" fill="none" stroke="#4ade80" stroke-width="2"><path d="M23 6l-9 12-5-5"/></svg><span class="text-sm font-semibold text-green-400">Result</span></div>
+                        <p class="text-sm text-white">99.9% transaction success rate with real-time reconciliation.</p>
+                        <div class="mt-3 flex items-center gap-4 text-xs">
+                            <span class="text-ardiv-slate">Before: <span class="text-ardiv-coral">92%</span></span>
+                            <svg width="12" height="12" fill="none" stroke="#94a3b8" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            <span class="text-ardiv-slate">After: <span class="text-green-400">99.9%</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="intersection-observe card-hover rounded-xl border border-white/5 bg-ardiv-surface/50 p-6 backdrop-blur-sm">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-medium bg-ardiv-blue/10 text-ardiv-blue mb-2">Sports Tech</span>
+                            <h3 class="text-xl font-bold text-white">Fantasy Sports Platform</h3>
+                        </div>
+                    </div>
+                    <div class="space-y-3 mb-6">
+                        <div><span class="text-xs font-semibold text-ardiv-coral uppercase tracking-wider">Problem</span><p class="text-sm text-ardiv-slate mt-1">Users needed a fast, engaging fantasy sports experience.</p></div>
+                        <div><span class="text-xs font-semibold text-ardiv-blue uppercase tracking-wider">Solution</span><p class="text-sm text-ardiv-slate mt-1">Built responsive UI with real-time score updates and leaderboards.</p></div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-white/5 text-ardiv-slate border border-white/5">React</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-white/5 text-ardiv-slate border border-white/5">HTML/CSS</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-white/5 text-ardiv-slate border border-white/5">REST APIs</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-white/5 text-ardiv-slate border border-white/5">WebSockets</span>
+                    </div>
+                    <div class="p-4 rounded-lg bg-white/5 border border-white/5">
+                        <div class="flex items-center gap-2 mb-2"><svg width="16" height="16" fill="none" stroke="#4ade80" stroke-width="2"><path d="M23 6l-9 12-5-5"/></svg><span class="text-sm font-semibold text-green-400">Result</span></div>
+                        <p class="text-sm text-white">10,000+ active users with 40% faster load times.</p>
+                        <div class="mt-3 flex items-center gap-4 text-xs">
+                            <span class="text-ardiv-slate">Before: <span class="text-ardiv-coral">5s load</span></span>
+                            <svg width="12" height="12" fill="none" stroke="#94a3b8" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            <span class="text-ardiv-slate">After: <span class="text-green-400">3s load</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="intersection-observe card-hover rounded-xl border border-white/5 bg-ardiv-surface/50 p-6 backdrop-blur-sm">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-medium bg-ardiv-blue/10 text-ardiv-blue mb-2">Retail</span>
+                            <h3 class="text-xl font-bold text-white">E-Commerce Store</h3>
+                        </div>
+                    </div>
+                    <div class="space-y-3 mb-6">
+                        <div><span class="text-xs font-semibold text-ardiv-coral uppercase tracking-wider">Problem</span><p class="text-sm text-ardiv-slate mt-1">Local business needed an online presence to reach more customers.</p></div>
+                        <div><span class="text-xs font-semibold text-ardiv-blue uppercase tracking-wider">Solution</span><p class="text-sm text-ardiv-slate mt-1">Custom Shopify store with SEO optimization and payment setup.</p></div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-white/5 text-ardiv-slate border border-white/5">Shopify</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-white/5 text-ardiv-slate border border-white/5">Liquid</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-white/5 text-ardiv-slate border border-white/5">SEO</span>
+                        <span class="px-2.5 py-1 rounded-md text-xs font-medium bg-white/5 text-ardiv-slate border border-white/5">Analytics</span>
+                    </div>
+                    <div class="p-4 rounded-lg bg-white/5 border border-white/5">
+                        <div class="flex items-center gap-2 mb-2"><svg width="16" height="16" fill="none" stroke="#4ade80" stroke-width="2"><path d="M23 6l-9 12-5-5"/></svg><span class="text-sm font-semibold text-green-400">Result</span></div>
+                        <p class="text-sm text-white">₹2L+ monthly revenue within 6 months of launch.</p>
+                        <div class="mt-3 flex items-center gap-4 text-xs">
+                            <span class="text-ardiv-slate">Before: <span class="text-ardiv-coral">₹0</span></span>
+                            <svg width="12" height="12" fill="none" stroke="#94a3b8" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            <span class="text-ardiv-slate">After: <span class="text-green-400">₹2L+/mo</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process -->
+    <section id="process" class="py-24 sm:py-32 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-ardiv-blue/5 to-transparent"></div>
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-12 relative z-10">
+            <div class="text-center mb-12 intersection-observe">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">How We Work</h2>
+                <p class="mt-4 text-lg text-ardiv-slate max-w-2xl mx-auto">Honest process. No surprises. You know exactly where we stand.</p>
+                <div class="mt-4 h-1 w-20 bg-ardiv-coral rounded-full mx-auto"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-16">
+                <div class="intersection-observe card-hover rounded-xl border border-white/5 bg-ardiv-surface/50 p-6 backdrop-blur-sm text-center lg:text-left">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-ardiv-blue/10 border border-ardiv-blue/20 mb-6">
+                        <span class="text-2xl font-bold text-ardiv-blue">01</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-3">Discover</h3>
+                    <p class="text-sm text-ardiv-slate leading-relaxed">We understand your business, goals, and constraints. No assumptions.</p>
+                </div>
+                <div class="intersection-observe card-hover rounded-xl border border-white/5 bg-ardiv-surface/50 p-6 backdrop-blur-sm text-center lg:text-left">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-ardiv-blue/10 border border-ardiv-blue/20 mb-6">
+                        <span class="text-2xl font-bold text-ardiv-blue">02</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-3">Assess</h3>
+                    <p class="text-sm text-ardiv-slate leading-relaxed">We honestly evaluate if we are the right fit. If not, we tell you.</p>
+                </div>
+                <div class="intersection-observe card-hover rounded-xl border border-white/5 bg-ardiv-surface/50 p-6 backdrop-blur-sm text-center lg:text-left">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-ardiv-blue/10 border border-ardiv-blue/20 mb-6">
+                        <span class="text-2xl font-bold text-ardiv-blue">03</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-3">Build</h3>
+                    <p class="text-sm text-ardiv-slate leading-relaxed">We build with React, Next.js, or your preferred stack. Clean code, always.</p>
+                </div>
+                <div class="intersection-observe card-hover rounded-xl border border-white/5 bg-ardiv-surface/50 p-6 backdrop-blur-sm text-center lg:text-left">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-ardiv-blue/10 border border-ardiv-blue/20 mb-6">
+                        <span class="text-2xl font-bold text-ardiv-blue">04</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-3">Deliver</h3>
+                    <p class="text-sm text-ardiv-slate leading-relaxed">We deploy, test, and hand over. You own everything.</p>
+                </div>
+            </div>
+            <div class="intersection-observe mt-16 p-6 rounded-xl border border-ardiv-coral/20 bg-ardiv-coral/5 text-center">
+                <p class="text-ardiv-slate"><span class="text-ardiv-coral font-semibold">Important:</span> After Step 2 (Assess), if we determine the project is outside our expertise, we tell you honestly. No false promises. No wasted time.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="py-24 sm:py-32 bg-ardiv-surface/30">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-12">
+            <div class="text-center mb-12 intersection-observe">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">Who We Are</h2>
+                <p class="mt-4 text-lg text-ardiv-slate max-w-2xl mx-auto">A husband-wife team in Chennai. He builds systems. She designs experiences.</p>
+                <div class="mt-4 h-1 w-20 bg-ardiv-coral rounded-full mx-auto"></div>
+            </div>
+            <div class="intersection-observe flex items-center justify-center gap-2 mb-16">
+                <svg width="16" height="16" fill="none" stroke="#f97316" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span class="text-sm text-ardiv-slate">Based in Chennai, India</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
+                <div class="intersection-observe card-hover rounded-xl border border-white/5 bg-ardiv-surface/50 p-6 backdrop-blur-sm text-center">
+                    <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-ardiv-blue/20 to-ardiv-coral/20 border border-white/10 flex items-center justify-center mb-6">
+                        <svg width="32" height="32" fill="none" stroke="#3b82f6" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-1">Aravind</h3>
+                    <p class="text-sm font-medium text-ardiv-blue mb-4">Full-Stack Engineer</p>
+                    <p class="text-xs text-ardiv-coral font-medium uppercase tracking-wider mb-3">React, Node.js, Payment Systems, Enterprise Apps</p>
+                    <p class="text-sm text-ardiv-slate leading-relaxed">Enterprise background in healthcare, insurance, and fintech. Builds systems that scale.</p>
+                </div>
+                <div class="intersection-observe card-hover rounded-xl border border-white/5 bg-ardiv-surface/50 p-6 backdrop-blur-sm text-center">
+                    <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-ardiv-blue/20 to-ardiv-coral/20 border border-white/10 flex items-center justify-center mb-6">
+                        <svg width="32" height="32" fill="none" stroke="#3b82f6" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-1">Design Lead</h3>
+                    <p class="text-sm font-medium text-ardiv-blue mb-4">Frontend & E-Commerce Specialist</p>
+                    <p class="text-xs text-ardiv-coral font-medium uppercase tracking-wider mb-3">WordPress, Shopify, SEO, UI/UX</p>
+                    <p class="text-sm text-ardiv-slate leading-relaxed">Expert in building fast, beautiful sites that rank. Fantasy apps to e-commerce stores.</p>
+                </div>
+            </div>
+            <div class="intersection-observe mt-12 text-center">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5">
+                    <svg width="16" height="16" fill="none" stroke="#3b82f6" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+                    <span class="text-sm text-ardiv-slate">Extended crew of specialist friends available for larger projects</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="py-24 sm:py-32">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-12 max-w-3xl">
+            <div class="text-center mb-12 intersection-observe">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">Common Questions</h2>
+                <p class="mt-4 text-lg text-ardiv-slate max-w-2xl mx-auto">Straight answers. No marketing speak.</p>
+                <div class="mt-4 h-1 w-20 bg-ardiv-coral rounded-full mx-auto"></div>
+            </div>
+            <div class="mt-12 space-y-4">
+                <div class="intersection-observe faq-item rounded-xl border border-white/5 bg-ardiv-surface/30 overflow-hidden">
+                    <button class="faq-btn w-full flex items-center justify-between p-5 text-left hover:bg-white/5 transition-colors" onclick="toggleFaq(this)">
+                        <span class="text-sm font-semibold text-white pr-4">What technologies do you specialize in?</span>
+                        <svg class="faq-icon shrink-0" width="18" height="18" fill="none" stroke="#94a3b8" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-content"><div class="px-5 pb-5"><p class="text-sm text-ardiv-slate leading-relaxed">Our core stack is React, Next.js, Node.js, and e-commerce platforms like Shopify and WooCommerce. For projects outside this, we assess honestly and either learn fast with AI assistance or connect you with the right specialist.</p></div></div>
+                </div>
+                <div class="intersection-observe faq-item rounded-xl border border-white/5 bg-ardiv-surface/30 overflow-hidden">
+                    <button class="faq-btn w-full flex items-center justify-between p-5 text-left hover:bg-white/5 transition-colors" onclick="toggleFaq(this)">
+                        <span class="text-sm font-semibold text-white pr-4">How long does a typical project take?</span>
+                        <svg class="faq-icon shrink-0" width="18" height="18" fill="none" stroke="#94a3b8" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-content"><div class="px-5 pb-5"><p class="text-sm text-ardiv-slate leading-relaxed">A basic website takes 1-2 weeks. A full web application takes 3-6 weeks. E-commerce stores typically take 2-4 weeks. We give realistic timelines upfront — no false promises.</p></div></div>
+                </div>
+                <div class="intersection-observe faq-item rounded-xl border border-white/5 bg-ardiv-surface/30 overflow-hidden">
+                    <button class="faq-btn w-full flex items-center justify-between p-5 text-left hover:bg-white/5 transition-colors" onclick="toggleFaq(this)">
+                        <span class="text-sm font-semibold text-white pr-4">Do you work with clients outside Chennai?</span>
+                        <svg class="faq-icon shrink-0" width="18" height="18" fill="none" stroke="#94a3b8" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-content"><div class="px-5 pb-5"><p class="text-sm text-ardiv-slate leading-relaxed">Absolutely. While we are based in Chennai, we work with clients across India and internationally. Video calls and async communication work perfectly.</p></div></div>
+                </div>
+                <div class="intersection-observe faq-item rounded-xl border border-white/5 bg-ardiv-surface/30 overflow-hidden">
+                    <button class="faq-btn w-full flex items-center justify-between p-5 text-left hover:bg-white/5 transition-colors" onclick="toggleFaq(this)">
+                        <span class="text-sm font-semibold text-white pr-4">What is your pricing?</span>
+                        <svg class="faq-icon shrink-0" width="18" height="18" fill="none" stroke="#94a3b8" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-content"><div class="px-5 pb-5"><p class="text-sm text-ardiv-slate leading-relaxed">Basic websites start at ₹15,000. Web applications start at ₹75,000. E-commerce stores start at ₹30,000. We provide detailed quotes after understanding your requirements.</p></div></div>
+                </div>
+                <div class="intersection-observe faq-item rounded-xl border border-white/5 bg-ardiv-surface/30 overflow-hidden">
+                    <button class="faq-btn w-full flex items-center justify-between p-5 text-left hover:bg-white/5 transition-colors" onclick="toggleFaq(this)">
+                        <span class="text-sm font-semibold text-white pr-4">Do you provide maintenance after launch?</span>
+                        <svg class="faq-icon shrink-0" width="18" height="18" fill="none" stroke="#94a3b8" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+                    <div class="faq-content"><div class="px-5 pb-5"><p class="text-sm text-ardiv-slate leading-relaxed">Yes. We offer monthly maintenance retainers starting at ₹5,000/month. This includes hosting, updates, security patches, and minor feature additions.</p></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-24 sm:py-32 bg-ardiv-surface/30">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-12">
+            <div class="text-center mb-12 intersection-observe">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">Start a Project</h2>
+                <p class="mt-4 text-lg text-ardiv-slate max-w-2xl mx-auto">Tell us what you need. We'll assess honestly and get back within 24 hours.</p>
+                <div class="mt-4 h-1 w-20 bg-ardiv-coral rounded-full mx-auto"></div>
+            </div>
+            <div class="mt-16 grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16 max-w-6xl mx-auto">
+                <div class="intersection-observe lg:col-span-2">
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-4">Contact Details</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-start gap-3">
+                                    <svg width="18" height="18" fill="none" stroke="#3b82f6" stroke-width="2" class="mt-0.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                    <div>
+                                        <p class="text-sm font-medium text-white">Email</p>
+                                        <a href="mailto:aravindmende@gmail.com" class="text-sm text-ardiv-slate hover:text-ardiv-blue transition-colors">aravindmende@gmail.com</a>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <svg width="18" height="18" fill="none" stroke="#3b82f6" stroke-width="2" class="mt-0.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+                                    <div>
+                                        <p class="text-sm font-medium text-white">Phone</p>
+                                        <a href="tel:919003223433" class="text-sm text-ardiv-slate hover:text-ardiv-blue transition-colors">+91-9003223433</a>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <svg width="18" height="18" fill="none" stroke="#22c55e" stroke-width="2" class="mt-0.5"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+                                    <div>
+                                        <p class="text-sm font-medium text-white">WhatsApp</p>
+                                        <a href="https://wa.me/919003223433?text=Hi%20Ardiv,%20I%20am%20interested%20in%20your%20web%20development%20services." target="_blank" rel="noopener noreferrer" class="text-sm text-green-400 hover:text-green-300 transition-colors">Chat on WhatsApp →</a>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <svg width="18" height="18" fill="none" stroke="#3b82f6" stroke-width="2" class="mt-0.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                    <div>
+                                        <p class="text-sm font-medium text-white">Location</p>
+                                        <p class="text-sm text-ardiv-slate">Chennai, India</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white mb-4">Response Time</h3>
+                            <p class="text-sm text-ardiv-slate">We respond to all inquiries within <span class="text-ardiv-coral font-medium">24 hours</span>. For complex projects, we may need 48 hours to assess feasibility honestly.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="intersection-observe lg:col-span-3">
+                    <form id="contactForm" class="space-y-5" onsubmit="handleSubmit(event)">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-white mb-2">Name</label>
+                                <input type="text" id="name" name="name" required class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-ardiv-slate focus:border-ardiv-blue focus:outline-none focus:ring-1 focus:ring-ardiv-blue transition-colors" placeholder="Your name">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-white mb-2">Email</label>
+                                <input type="email" id="email" name="email" required class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-ardiv-slate focus:border-ardiv-blue focus:outline-none focus:ring-1 focus:ring-ardiv-blue transition-colors" placeholder="you@company.com">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div>
+                                <label for="projectType" class="block text-sm font-medium text-white mb-2">Project Type</label>
+                                <select id="projectType" name="projectType" required class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white focus:border-ardiv-blue focus:outline-none focus:ring-1 focus:ring-ardiv-blue transition-colors">
+                                    <option value="" class="bg-ardiv-navy">Select type</option>
+                                    <option value="website" class="bg-ardiv-navy">Website</option>
+                                    <option value="webapp" class="bg-ardiv-navy">Web Application</option>
+                                    <option value="ecommerce" class="bg-ardiv-navy">E-Commerce</option>
+                                    <option value="other" class="bg-ardiv-navy">Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="budget" class="block text-sm font-medium text-white mb-2">Budget (INR)</label>
+                                <select id="budget" name="budget" class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white focus:border-ardiv-blue focus:outline-none focus:ring-1 focus:ring-ardiv-blue transition-colors">
+                                    <option value="" class="bg-ardiv-navy">Select range</option>
+                                    <option value="under-25k" class="bg-ardiv-navy">Under ₹25,000</option>
+                                    <option value="25k-75k" class="bg-ardiv-navy">₹25,000 - ₹75,000</option>
+                                    <option value="75k-2l" class="bg-ardiv-navy">₹75,000 - ₹2,00,000</option>
+                                    <option value="above-2l" class="bg-ardiv-navy">Above ₹2,00,000</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-white mb-2">Project Details</label>
+                            <textarea id="message" name="message" rows="5" required class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-ardiv-slate focus:border-ardiv-blue focus:outline-none focus:ring-1 focus:ring-ardiv-blue transition-colors resize-none" placeholder="Tell us about your project, timeline, and any specific requirements..."></textarea>
+                        </div>
+                        <button type="submit" class="inline-flex items-center justify-center rounded-lg bg-ardiv-blue px-6 py-3 text-sm font-semibold text-white hover:bg-blue-600 transition-all hover:shadow-lg hover:shadow-blue-500/25">
+                            <svg class="mr-2" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                            Send Message
+                        </button>
+                    </form>
+                    <div id="successMessage" class="hidden rounded-xl border border-green-500/20 bg-green-500/5 p-8 text-center">
+                        <svg class="mx-auto mb-4" width="48" height="48" fill="none" stroke="#4ade80" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        <h3 class="text-xl font-bold text-white mb-2">Message Sent!</h3>
+                        <p class="text-ardiv-slate">We'll get back to you within 24 hours.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 bg-ardiv-navy">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-12 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <svg width="32" height="32" viewBox="0 0 100 100" fill="none"><polygon points="50,10 10,85 90,85" fill="#3b82f6"/><polygon points="50,10 35,40 65,40" fill="#0a0a1a"/><rect x="30" y="55" width="40" height="8" fill="#0a0a1a" rx="1"/><circle cx="85" cy="20" r="6" fill="#f97316"/></svg>
+                        <div><span class="text-lg font-bold">ARDIV</span></div>
+                    </div>
+                    <p class="text-sm text-ardiv-slate max-w-sm leading-relaxed">We build fast, secure websites and web applications for growing businesses. React, Next.js, Node.js, and e-commerce specialists based in Chennai.</p>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#services" class="text-sm text-ardiv-slate hover:text-ardiv-blue transition-colors">Services</a></li>
+                        <li><a href="#work" class="text-sm text-ardiv-slate hover:text-ardiv-blue transition-colors">Work</a></li>
+                        <li><a href="#process" class="text-sm text-ardiv-slate hover:text-ardiv-blue transition-colors">Process</a></li>
+                        <li><a href="#about" class="text-sm text-ardiv-slate hover:text-ardiv-blue transition-colors">About</a></li>
+                        <li><a href="#contact" class="text-sm text-ardiv-slate hover:text-ardiv-blue transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold text-white mb-4">Contact</h4>
+                    <ul class="space-y-2">
+                        <li><a href="mailto:aravindmende@gmail.com" class="text-sm text-ardiv-slate hover:text-ardiv-blue transition-colors">aravindmende@gmail.com</a></li>
+                        <li><span class="text-sm text-ardiv-slate">Chennai, India</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-xs text-ardiv-muted">&copy; 2026 Ardiv. All rights reserved.</p>
+                <p class="text-xs text-ardiv-muted">Built with React, Next.js & Tailwind CSS</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const icon = document.getElementById('menuIcon');
+            menu.classList.toggle('open');
+            if (menu.classList.contains('open')) {
+                icon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+            } else {
+                icon.innerHTML = '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>';
+            }
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                navbar.style.background = 'rgba(10,10,26,0.9)';
+                navbar.style.backdropFilter = 'blur(12px)';
+                navbar.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+            } else {
+                navbar.style.background = 'transparent';
+                navbar.style.backdropFilter = 'none';
+                navbar.style.borderBottom = 'none';
+            }
+        });
+
+        // FAQ accordion
+        function toggleFaq(btn) {
+            const item = btn.parentElement;
+            const content = item.querySelector('.faq-content');
+            const icon = btn.querySelector('.faq-icon');
+            const isOpen = content.classList.contains('open');
+
+            // Close all others
+            document.querySelectorAll('.faq-content').forEach(c => c.classList.remove('open'));
+            document.querySelectorAll('.faq-icon').forEach(i => i.classList.remove('open'));
+
+            if (!isOpen) {
+                content.classList.add('open');
+                icon.classList.add('open');
+            }
+        }
+
+        // Contact form
+        function handleSubmit(e) {
+            e.preventDefault();
+            document.getElementById('contactForm').classList.add('hidden');
+            document.getElementById('successMessage').classList.remove('hidden');
+        }
+
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '-50px' });
+
+        document.querySelectorAll('.intersection-observe').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
