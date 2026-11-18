@@ -501,62 +501,18 @@
                     </div>
                 </div>
                 <div class="intersection-observe lg:col-span-3">
-                    <form id="contactForm" class="space-y-5" action="https://api.web3forms.com/submit" method="POST" onsubmit="handleSubmit(event)">
-    <!-- Web3Forms -->
-    <input type="hidden" name="access_key" value="29c198ed-2eaa-4607-acc3-c0850ecab298">
-    <input type="hidden" name="subject" value="New Ardiv project enquiry">
-    <input type="hidden" name="from_name" value="Ardiv Website">
-    <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off">
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <div>
-            <label for="name" class="block text-sm font-medium text-white mb-2">Name</label>
-            <input type="text" id="name" name="name" required class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-ardiv-slate focus:border-ardiv-blue focus:outline-none focus:ring-1 focus:ring-ardiv-blue transition-colors" placeholder="Your name">
-        </div>
-        <div>
-            <label for="email" class="block text-sm font-medium text-white mb-2">Email</label>
-            <input type="email" id="email" name="email" required class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-ardiv-slate focus:border-ardiv-blue focus:outline-none focus:ring-1 focus:ring-ardiv-blue transition-colors" placeholder="you@company.com">
-        </div>
-    </div>
-
-    <div>
-        <label for="phone" class="block text-sm font-medium text-white mb-2">Phone <span class="text-ardiv-slate font-normal">(optional)</span></label>
-        <input type="tel" id="phone" name="phone" pattern="[+]?[0-9\s\-]{10,15}" title="Enter a valid phone number" class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-ardiv-slate focus:border-ardiv-blue focus:outline-none focus:ring-1 focus:ring-ardiv-blue transition-colors" placeholder="+91 98765 43210">
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <div>
-            <label for="projectType" class="block text-sm font-medium text-white mb-2">Project Type</label>
-            <select id="projectType" name="projectType" required class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white focus:border-ardiv-blue focus:outline-none focus:ring-1 focus:ring-ardiv-blue transition-colors">
-                <option value="" class="bg-ardiv-navy">Select type</option>
-                <option value="website" class="bg-ardiv-navy">Website</option>
-                <option value="webapp" class="bg-ardiv-navy">Web Application</option>
-                <option value="ecommerce" class="bg-ardiv-navy">E-Commerce</option>
-                <option value="other" class="bg-ardiv-navy">Other</option>
-            </select>
-        </div>
-        <div>
-            <label for="budget" class="block text-sm font-medium text-white mb-2">Budget (INR)</label>
-            <select id="budget" name="budget" class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white focus:border-ardiv-blue focus:outline-none focus:ring-1 focus:ring-ardiv-blue transition-colors">
-                <option value="" class="bg-ardiv-navy">Select range</option>
-                <option value="under-25k" class="bg-ardiv-navy">Under ₹25,000</option>
-                <option value="25k-75k" class="bg-ardiv-navy">₹25,000 - ₹75,000</option>
-                <option value="75k-2l" class="bg-ardiv-navy">₹75,000 - ₹2,00,000</option>
-                <option value="above-2l" class="bg-ardiv-navy">Above ₹2,00,000</option>
-            </select>
-        </div>
-    </div>
-
-    <div>
-        <label for="message" class="block text-sm font-medium text-white mb-2">Project Details</label>
-        <textarea id="message" name="message" rows="5" required class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-ardiv-slate focus:border-ardiv-blue focus:outline-none focus:ring-1 focus:ring-ardiv-blue transition-colors resize-none" placeholder="Tell us about your project, timeline, and any specific requirements..."></textarea>
-    </div>
-
-    <button type="submit" class="inline-flex items-center justify-center rounded-lg bg-ardiv-blue px-6 py-3 text-sm font-semibold text-white hover:bg-blue-600 transition-all hover:shadow-lg hover:shadow-blue-500/25 disabled:opacity-60 disabled:cursor-not-allowed">
-        <svg class="mr-2" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-        Send Message
-    </button>
+<form action="https://api.web3forms.com/submit" method="POST">
+  <input type="hidden" name="access_key" value="29c198ed-2eaa-4607-acc3-c0850ecab298">
+  <input type="text" name="name" required>
+  <input type="email" name="email" required>
+  <textarea name="message" required></textarea>
+  <button type="submit">Submit Form</button>
 </form>
+
+
+
+
+                 
                     <div id="successMessage" class="hidden rounded-xl border border-green-500/20 bg-green-500/5 p-8 text-center">
                         <svg class="mx-auto mb-4" width="48" height="48" fill="none" stroke="#4ade80" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                         <h3 class="text-xl font-bold text-white mb-2">Message Sent!</h3>
