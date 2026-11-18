@@ -609,6 +609,38 @@
     </footer>
 
     <script>
+
+
+     // Contact form
+async function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('button[type="submit"]');
+    const originalHTML = btn.innerHTML;
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    try {
+        const res = await fetch(form.action, {
+            method: 'POST',
+            headers: { 'Accept': 'application/json' },
+            body: new FormData(form)
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            form.reset();
+            form.classList.add('hidden');
+            document.getElementById('successMessage').classList.remove('hidden');
+        } else {
+            throw new Error(data.message || 'Submission failed');
+        }
+    } catch (err) {
+        btn.disabled = false;
+        btn.innerHTML = originalHTML;
+        alert('Sorry, something went wrong. Please email us or message us on WhatsApp instead.');
+    }
+}
         // Mobile menu toggle
         function toggleMenu() {
             const menu = document.getElementById('mobileMenu');
